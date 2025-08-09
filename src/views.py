@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-
+import pandas as pd
 
 # def greeting_by_time():
 #     """ Программа приветствует в соответствии с текущим временем суток"""
@@ -51,3 +51,13 @@ if __name__ == "__main__":
     # Сохранение JSON в файл
     with open("response.json", "w", encoding="utf-8") as f:
         json.dump(response, f, ensure_ascii=False)  # Записываем словарь в файл
+
+
+def open_excel():
+    #Открываем Excel и загружаем его в DataFrame
+    df = pd.read_excel("operations.xlsx", engine="openpyxl")
+    return df
+
+
+data = open_excel()
+print(data)
