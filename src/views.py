@@ -1,6 +1,9 @@
 import json
 import pandas as pd
 from datetime import datetime
+import requests
+import os
+from dotenv import load_dotenv
 
 def greeting_by_time(date_str):
     """ Программа приветствует в соответствии с переданным временем суток"""
@@ -27,6 +30,27 @@ def open_excel(file_name):
     return df
 
 
+def currency_course():
+    """ Функция получает актуальный курс валют"""
+    load_dotenv()  # Загружает переменные окружения из файла .env
+    api_key = os.getenv("API_KEY")  # Получает значение переменной окружения
+    url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/RUB"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        rates = data['conversion_rates']
+
+        currency_rates = [
+            {"currency": "USD", "rate": 1 / rates.get("USD", None)},
+            {"currency": "EUR", "rate": 1 / rates.get("EUR", None)}]
+
+        return currency_rates
+    else:
+        print("Ошибка при получении данных о курсах валют.")
+        return []
+
+
+
 def last_card_numbers(df,greeting):
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
@@ -35,7 +59,6 @@ def last_card_numbers(df,greeting):
     if "Номер карты" not in df.columns or "Сумма операции с округлением" not in df.columns:
         raise ValueError("Необходимые столбцы 'Номер карты' или 'Сумма операции с округлением' не найдены в файле.")
 
-    # print("Столбцы в DataFrame:", df.columns)
 
 #     # Группировка данных по столбцу "from" и суммирование "amount"
     grouped = df.groupby("Номер карты")["Сумма операции с округлением"].sum().reset_index()
@@ -47,10 +70,6 @@ def last_card_numbers(df,greeting):
         total = row["Сумма операции с округлением"]
         cashback = total // 100  # Кешбэк
 
-        # print(f"По карте: {card_numbers}")
-        # print(f"Общая сумма расходов: {total} рублей")
-        # print(f"Кешбэк: {cashback} рублей")
-        # print()  # Пустая строка для разделения записей
         cards_list.append({
             "last_digits": card_numbers,
             "total_spent": total,
@@ -70,13 +89,15 @@ def last_card_numbers(df,greeting):
 
         }
         transactions_list.append(transactions)
+    currency_rates = currency_course()
 
         # Формируем итоговый словарь
     result = {
             "greeting": greeting,
             "cards": cards_list,
-            "top_transactions": transactions_list
-        }
+            "top_transactions": transactions_list,
+            "currency_rates": currency_rates
+    }
     return result
 
 
@@ -98,5 +119,4 @@ if __name__ == "__main__":
     # Сохранение JSON в файл
     with open("response.json", "w", encoding="utf-8") as f:
         json.dump(final_result, f, ensure_ascii=False, indent=2)  # Записываем в json
-
 

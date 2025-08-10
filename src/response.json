@@ -50,5 +50,15 @@
       "category": "Переводы",
       "description": "Перевод на карту"
     }
+  ],
+  "currency_rates": [
+    {
+      "currency": "USD",
+      "rate": 79.93605115907275
+    },
+    {
+      "currency": "EUR",
+      "rate": 93.0232558139535
+    }
   ]
 }

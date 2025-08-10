@@ -209,5 +209,5 @@ __marimo__/
 
 .env
 
-
+# .gitignore
 .env
