@@ -50,6 +50,35 @@ def currency_course():
         return []
 
 
+def stock_prices():
+    """ Функция получает цены акций S&P 500"""
+    load_dotenv()
+    api_key = os.getenv("API_KEY_ALPHA_VANTAGE")
+    tickers = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]  # Пример тикеров
+    stock_data = []
+    for ticker in tickers:
+
+        url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if "Time Series (Daily)" in data:
+                latest_date = list(data["Time Series (Daily)"].keys())[0]
+                latest_data = data["Time Series (Daily)"][latest_date]
+                stock_data.append({
+                    "stock": ticker,
+                    "price": float(latest_data["4. close"])
+                })
+            else:
+                print(f"Ошибка получения данных для {ticker}: {data}")
+        else:
+            print(f"Ошибка API для {ticker}: {response.status_code}")
+    return stock_data
+
+
+
+
+
 
 def last_card_numbers(df,greeting):
     # Чтение данных из Excel файла
@@ -96,7 +125,8 @@ def last_card_numbers(df,greeting):
             "greeting": greeting,
             "cards": cards_list,
             "top_transactions": transactions_list,
-            "currency_rates": currency_rates
+            "currency_rates": currency_rates,
+            "stock_prices": stock_prices()
     }
     return result
 
@@ -111,6 +141,8 @@ if __name__ == "__main__":
 
     # Получаем итоговый результат
     final_result = last_card_numbers(df, greeting)
+    final_result["currency_rates"] = currency_course()
+    final_result["stock_prices"] = stock_prices()
 
     # Преобразуем в JSON-строку
     json_response = json.dumps(final_result, ensure_ascii=False, indent=2)
