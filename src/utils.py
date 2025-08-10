@@ -47,14 +47,19 @@ def last_card_numbers():
     grouped = df.groupby("Номер карты")["Сумма операции с округлением"].sum().reset_index()
 #
 #     # Итерация по сгруппированным данным
-    for index, row in grouped.iterrows():  # Исправлено: заменено на 'for index, row in grouped.iterrows()'
-        card_numbers = str(row["Номер карты"])[-4:]  # Исправлено: 'row' вместо 'index.row'
+    for index, row in grouped.iterrows():
+        card_numbers = str(row["Номер карты"])[-4:]
         total = row["Сумма операции с округлением"]
-        cashback = total // 100  # Кешбэк (1 рубль на каждые 100 рублей)
+        cashback = total // 100  # Кешбэк
 
         print(f"По карте: {card_numbers}")
         print(f"Общая сумма расходов: {total} рублей")
         print(f"Кешбэк: {cashback} рублей")
         print()  # Пустая строка для разделения записей
+
+    top_transactions = df.nlargest(5, "Сумма операции с округлением")
+    for index, row in top_transactions.iterrows():
+        print(f"Номер карта: {row["Номер карты"]}, Сумма: {row["Сумма операции с округлением"]} рублей")
+
 
 last_card_numbers()
