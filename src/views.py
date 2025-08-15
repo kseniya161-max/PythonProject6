@@ -76,10 +76,6 @@ def stock_prices():
     return stock_data
 
 
-
-
-
-
 def last_card_numbers(df,greeting):
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
@@ -137,7 +133,7 @@ if __name__ == "__main__":
 
     # Открываем Excel файл
     df = open_excel("trans_j.xls")
-    file_name = "trans_j.xls"  # Имя файла
+    file_name = "trans_j.xls"
 
     # Получаем итоговый результат
     final_result = last_card_numbers(df, greeting)
