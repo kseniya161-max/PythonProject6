@@ -4,10 +4,15 @@ from datetime import datetime
 import requests
 import os
 from dotenv import load_dotenv
+import logging
+
+
+#Логирование
+logging.basicConfig(level=logging.INFO)
 
 def greeting_by_time(date_str):
     """ Программа приветствует в соответствии с переданным временем суток"""
-    # создаем объект datetime из строки
+    logging.info("Создается объект datetime из строки")
     dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
 
     if 5 <= dt.hour < 12:
@@ -19,13 +24,14 @@ def greeting_by_time(date_str):
     else:
         greeting = "Доброй Ночи"
 
-    # Формируется json файл
+    # Формируется json ответ
     response = {"greeting": greeting}
     return response
 
 
 def open_excel(file_name):
     """ Открываем Excel и загружаем его в DataFrame """
+    logging.info("Производится открытие Exel файла")
     df = pd.read_excel(file_name, engine="xlrd")
     return df
 
@@ -33,12 +39,13 @@ def open_excel(file_name):
 def currency_course():
     """ Функция получает актуальный курс валют"""
     load_dotenv()  # Загружает переменные окружения из файла .env
+    logging.info("Производится запрос на Api сайт")
     api_key = os.getenv("API_KEY")  # Получает значение переменной окружения
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/RUB"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        rates = data['conversion_rates']
+        rates = data["conversion_rates"]
 
         currency_rates = [
             {"currency": "USD", "rate": 1 / rates.get("USD", None)},
@@ -60,6 +67,7 @@ def stock_prices():
 
         url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}"
         response = requests.get(url)
+        logging.info("Получаем данные с API сайта")
         if response.status_code == 200:
             data = response.json()
             if "Time Series (Daily)" in data:
@@ -80,15 +88,15 @@ def last_card_numbers(df,greeting):
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
 
-    # Проверка наличия необходимых столбцов
+    logging.info("Происходит проверка наличия необходимых столбцов")
     if "Номер карты" not in df.columns or "Сумма операции с округлением" not in df.columns:
         raise ValueError("Необходимые столбцы 'Номер карты' или 'Сумма операции с округлением' не найдены в файле.")
 
 
-#     # Группировка данных по столбцу "from" и суммирование "amount"
+    logging.info("Происходит группировка данных по столбцам")
     grouped = df.groupby("Номер карты")["Сумма операции с округлением"].sum().reset_index()
-#
-#     # Итерация по сгруппированным данным
+
+   # Итерация по сгруппированным данным
     cards_list = []
     for index, row in grouped.iterrows():
         card_numbers = str(row["Номер карты"])[-4:]
@@ -116,7 +124,7 @@ def last_card_numbers(df,greeting):
         transactions_list.append(transactions)
     currency_rates = currency_course()
 
-        # Формируем итоговый словарь
+    logging.info("Формируем итоговой словарь")
     result = {
             "greeting": greeting,
             "cards": cards_list,
@@ -129,7 +137,8 @@ def last_card_numbers(df,greeting):
 
 if __name__ == "__main__":
     date_input = "2023-10-01 14:30:00"
-    greeting = greeting_by_time(date_input)  #Выводим приветствие
+    logging.info("Выводится приветствие")
+    greeting = greeting_by_time(date_input)
 
     # Открываем Excel файл
     df = open_excel("trans_j.xls")
