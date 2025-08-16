@@ -51,36 +51,6 @@
       "description": "Перевод на карту"
     }
   ],
-  "currency_rates": [
-    {
-      "currency": "USD",
-      "rate": 80.0
-    },
-    {
-      "currency": "EUR",
-      "rate": 93.19664492078286
-    }
-  ],
-  "stock_prices": [
-    {
-      "stock": "AAPL",
-      "price": 231.59
-    },
-    {
-      "stock": "AMZN",
-      "price": 231.03
-    },
-    {
-      "stock": "GOOGL",
-      "price": 203.9
-    },
-    {
-      "stock": "MSFT",
-      "price": 520.17
-    },
-    {
-      "stock": "TSLA",
-      "price": 330.56
-    }
-  ]
+  "currency_rates": [],
+  "stock_prices": []
 }

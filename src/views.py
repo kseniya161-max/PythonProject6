@@ -141,8 +141,8 @@ if __name__ == "__main__":
     greeting = greeting_by_time(date_input)
 
     # Открываем Excel файл
-    df = open_excel("trans_j.xls")
-    file_name = "trans_j.xls"
+    df = open_excel("../data/trans_j.xls")
+    file_name = "../data/trans_j.xls"
 
     # Получаем итоговый результат
     final_result = last_card_numbers(df, greeting)

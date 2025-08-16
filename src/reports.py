@@ -68,7 +68,7 @@ def get_expenses(transaction: pd.DataFrame, category: str, date_period: Optional
 
 
 if __name__ == "__main__":
-    transactions_df = open_excel("trans_j.xls")
+    transactions_df = open_excel("../data/trans_j.xls")
     total = get_expenses(transactions_df, "Переводы")  # Передаем категорию "Переводы"
     print(f"Общие траты по категории Переводы за последние три месяца: {total}")
 
