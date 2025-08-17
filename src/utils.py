@@ -1,11 +1,10 @@
 import json
 import pandas as pd
-from datetime import datetime
 import requests
 import os
 from dotenv import load_dotenv
 import logging
-from src. views import greeting_by_time, open_excel
+from src.views import greeting_by_time, open_excel
 
 #Логирование
 logging.basicConfig(level=logging.INFO)

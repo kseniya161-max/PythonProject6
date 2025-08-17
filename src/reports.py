@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 import pandas as pd
-from views import open_excel
+from src.views import open_excel
 from typing import Optional
 from functools import wraps
 import logging
@@ -53,7 +53,7 @@ def get_expenses(transaction: pd.DataFrame, category: str, date_period: Optional
     start_date = end_date - pd.DateOffset(months=3)
 
     logging.info("Производим Преобразование даты")
-    transaction["Дата платежа"] = pd.to_datetime(transaction["Дата платежа"], format='%d.%m.%Y', errors='coerce')
+    transaction["Дата платежа"] = pd.to_datetime(transaction["Дата платежа"], format='%d.%m.%Y', errors='coerce', dayfirst=True)
 
     logging.info("Преобразуем сумму")
     transaction["Сумма операции с округлением"] = transaction["Сумма операции с округлением"].astype(str).str.replace(',', '.').astype(float)
@@ -67,10 +67,10 @@ def get_expenses(transaction: pd.DataFrame, category: str, date_period: Optional
     return filter_transactions["Сумма операции с округлением"].sum()
 
 
-if __name__ == "__main__":
-    transactions_df = open_excel("../data/trans_j.xls")
-    total = get_expenses(transactions_df, "Переводы")  # Передаем категорию "Переводы"
-    print(f"Общие траты по категории Переводы за последние три месяца: {total}")
+# if __name__ == "__main__":
+#     transactions_df = open_excel("../data/trans_j.xls")
+#     total = get_expenses(transactions_df, "Переводы")  # Передаем категорию "Переводы"
+#     print(f"Общие траты по категории Переводы за последние три месяца: {total}")
 
 
 
