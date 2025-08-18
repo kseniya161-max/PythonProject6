@@ -11,9 +11,9 @@ logging.basicConfig(level=logging.INFO)
 
 def currency_course():
     """ Функция получает актуальный курс валют"""
-    load_dotenv()  # Загружает переменные окружения из файла .env
+    load_dotenv()
     logging.info("Производится запрос на Api сайт")
-    api_key = os.getenv("API_KEY")  # Получает значение переменной окружения
+    api_key = os.getenv("API_KEY")
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/RUB"
     response = requests.get(url)
     if response.status_code == 200:
@@ -108,24 +108,21 @@ def last_card_numbers(df,greeting):
     return result
 
 
-if __name__ == "__main__":
-    date_input = "2023-10-01 14:30:00"
-    logging.info("Выводится приветствие")
-    greeting = greeting_by_time(date_input)
-
-    # Открываем Excel файл
-    df = open_excel("../data/trans_j.xls")
-    file_name = "../data/trans_j.xls"
-
-    # Получаем итоговый результат
-    final_result = last_card_numbers(df, greeting)
-    final_result["currency_rates"] = currency_course()
-    final_result["stock_prices"] = stock_prices()
-
-    # Преобразуем в JSON-строку
-    json_response = json.dumps(final_result, ensure_ascii=False, indent=2)
-    print(json_response)  # Вывод JSON-строки
-
-    # Сохранение JSON в файл
-    with open("response.json", "w", encoding="utf-8") as f:
-        json.dump(final_result, f, ensure_ascii=False, indent=2)  # Записываем в json
+# if __name__ == "__main__":
+#     date_input = "2023-10-01 14:30:00"
+#     logging.info("Выводится приветствие")
+#     greeting = greeting_by_time(date_input)
+#
+#     # Открываем Excel файл
+#     df = open_excel("../data/trans_j.xls")
+#     file_name = "../data/trans_j.xls"
+#
+#     final_result = last_card_numbers(df, greeting)
+#     final_result["currency_rates"] = currency_course()
+#     final_result["stock_prices"] = stock_prices()
+#
+#     json_response = json.dumps(final_result, ensure_ascii=False, indent=2)
+#     print(json_response)  # Вывод JSON-строки
+#
+#     with open("response.json", "w", encoding="utf-8") as f:
+#         json.dump(final_result, f, ensure_ascii=False, indent=2)  # Записываем в json
