@@ -45,7 +45,7 @@ def dec_to_file_with_param(filename: str):
 
 @dec_to_file()
 def get_expenses(transaction: pd.DataFrame, category: str, date_period: Optional[str] = None) -> float:
-    """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)"""
+    """Функция возвращает траты по заданной категории за последние три месяца (от передаваемой даты)"""
     logging.info("Происходит формирование даты")
     if date_period is None:
         date_period = datetime.now().strftime('%Y-%m-%d')
