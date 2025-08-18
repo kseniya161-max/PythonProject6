@@ -6,8 +6,9 @@ from typing import Optional
 from functools import wraps
 import logging
 
-#Логирование
+# Логирование
 logging.basicConfig(level=logging.INFO)
+
 
 def dec_to_file():
     """Декоратор записывает результаты функции в файл"""
@@ -16,8 +17,7 @@ def dec_to_file():
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
             data_to_write = {"time": datetime.now().strftime("%Y-%m-%d_%H:%M:%S"),
-                "result": result
-            }
+                "result": result}
             # filename = f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
             logging.info("Происходит запись в файл")
             with open("response.json", "w", encoding="utf-8") as f:
@@ -53,34 +53,21 @@ def get_expenses(transaction: pd.DataFrame, category: str, date_period: Optional
     start_date = end_date - pd.DateOffset(months=3)
 
     logging.info("Производим Преобразование даты")
-    transaction["Дата платежа"] = pd.to_datetime(transaction["Дата платежа"], format='%d.%m.%Y', errors='coerce', dayfirst=True)
+    transaction["Дата платежа"] = pd.to_datetime(transaction["Дата платежа"],
+                                                 format='%d.%m.%Y', errors='coerce', dayfirst=True)
 
     logging.info("Преобразуем сумму")
-    transaction["Сумма операции с округлением"] = transaction["Сумма операции с округлением"].astype(str).str.replace(',', '.').astype(float)
-
+    transaction["Сумма операции с округлением"] = (transaction["Сумма операции с округлением"].
+                                                   astype(str).str.replace(',', '.').astype(float))
 
     filter_transactions = transaction[(transaction["Категория"] == category) &
                                           (transaction["Дата платежа"] >= start_date) &
-                                          (transaction["Дата платежа"] <= end_date)
-        ]
+                                          (transaction["Дата платежа"] <= end_date)]
     # print(filter_transactions)
     return filter_transactions["Сумма операции с округлением"].sum()
 
 
-# if __name__ == "__main__":
-#     transactions_df = open_excel("../data/trans_j.xls")
-#     total = get_expenses(transactions_df, "Переводы")  # Передаем категорию "Переводы"
-#     print(f"Общие траты по категории Переводы за последние три месяца: {total}")
-
-
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    transactions_df = open_excel("../data/trans_j.xls")
+    total = get_expenses(transactions_df, "Переводы")  # Передаем категорию "Переводы"
+    print(f"Общие траты по категории Переводы за последние три месяца: {total}")

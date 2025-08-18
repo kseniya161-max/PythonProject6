@@ -9,6 +9,7 @@ from src.views import (
     last_card_numbers
 )
 
+
 @pytest.mark.parametrize("input_time, expected_greeting", [
     ("2023-10-01 06:00:00", {"greeting": "Доброе Утро"}),
     ("2023-10-01 13:00:00", {"greeting": "Добрый День"}),

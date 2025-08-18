@@ -17,10 +17,7 @@ def test_search_trans():
         {"Категории": "Переводы", "Описание": "Валерий А.", "Сумма": 1000},
         {"Категории": "Переводы", "Описание": "Сергей З.", "Сумма": 500}]
 
-
-
     result = search_trans(transactions)
     result_json = json.loads(result)
 
     assert result_json == expected_result, f"Expected {expected_result}, but got {result_json}"
-

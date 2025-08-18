@@ -6,9 +6,9 @@ import os
 from dotenv import load_dotenv
 import logging
 
-
-#Логирование
+# Логирование
 logging.basicConfig(level=logging.INFO)
+
 
 def greeting_by_time(date_str):
     """ Программа приветствует в соответствии с переданным временем суток"""
@@ -84,7 +84,7 @@ def stock_prices():
     return stock_data
 
 
-def last_card_numbers(df,greeting):
+def last_card_numbers(df, greeting):
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
 
@@ -92,11 +92,10 @@ def last_card_numbers(df,greeting):
     if "Номер карты" not in df.columns or "Сумма операции с округлением" not in df.columns:
         raise ValueError("Необходимые столбцы 'Номер карты' или 'Сумма операции с округлением' не найдены в файле.")
 
-
     logging.info("Происходит группировка данных по столбцам")
     grouped = df.groupby("Номер карты")["Сумма операции с округлением"].sum().reset_index()
 
-   # Итерация по сгруппированным данным
+    # Итерация по сгруппированным данным
     cards_list = []
     for index, row in grouped.iterrows():
         card_numbers = str(row["Номер карты"])[-4:]
@@ -118,9 +117,7 @@ def last_card_numbers(df,greeting):
         transactions = {"date": row["Дата операции"]. strftime("%d.%m.%Y"),
                         "amount": row["Сумма операции с округлением"],
                         "category": row["Категория"],
-                        "description": row["Описание"]
-
-        }
+                        "description": row["Описание"]}
         transactions_list.append(transactions)
     currency_rates = currency_course()
 
@@ -135,25 +132,24 @@ def last_card_numbers(df,greeting):
     return result
 
 
-# if __name__ == "__main__":
-#     date_input = "2023-10-01 19:30:00"
-#     logging.info("Выводится приветствие")
-#     greeting = greeting_by_time(date_input)
-#
-#     # Открываем Excel файл
-#     df = open_excel("../data/trans_j.xls")
-#     file_name = "../data/trans_j.xls"
-#
-#     # Получаем итоговый результат
-#     final_result = last_card_numbers(df, greeting)
-#     final_result["currency_rates"] = currency_course()
-#     final_result["stock_prices"] = stock_prices()
-#
-#     # Преобразуем в JSON-строку
-#     json_response = json.dumps(final_result, ensure_ascii=False, indent=2)
-#     print(json_response)  # Вывод JSON-строки
-#
-#     # Сохранение JSON в файл
-#     with open("response.json", "w", encoding="utf-8") as f:
-#         json.dump(final_result, f, ensure_ascii=False, indent=2)  # Записываем в json
+if __name__ == "__main__":
+    date_input = "2023-10-01 19:30:00"
+    logging.info("Выводится приветствие")
+    greeting = greeting_by_time(date_input)
 
+    # Открываем Excel файл
+    df = open_excel("../data/trans_j.xls")
+    file_name = "../data/trans_j.xls"
+
+    # Получаем итоговый результат
+    final_result = last_card_numbers(df, greeting)
+    final_result["currency_rates"] = currency_course()
+    final_result["stock_prices"] = stock_prices()
+
+    # Преобразуем в JSON-строку
+    json_response = json.dumps(final_result, ensure_ascii=False, indent=2)
+    print(json_response)  # Вывод JSON-строки
+
+    # Сохранение JSON в файл
+    with open("response.json", "w", encoding="utf-8") as f:
+        json.dump(final_result, f, ensure_ascii=False, indent=2)  # Записываем в json

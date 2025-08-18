@@ -6,8 +6,9 @@ from dotenv import load_dotenv
 import logging
 from src.views import greeting_by_time, open_excel
 
-#Логирование
+# Логирование
 logging.basicConfig(level=logging.INFO)
+
 
 def currency_course():
     """ Функция получает актуальный курс валют"""
@@ -57,14 +58,13 @@ def stock_prices():
     return stock_data
 
 
-def last_card_numbers(df,greeting):
+def last_card_numbers(df, greeting):
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
 
     logging.info("Происходит проверка наличия необходимых столбцов")
     if "Номер карты" not in df.columns or "Сумма операции с округлением" not in df.columns:
         raise ValueError("Необходимые столбцы 'Номер карты' или 'Сумма операции с округлением' не найдены в файле.")
-
 
     logging.info("Происходит группировка данных по столбцам")
     grouped = df.groupby("Номер карты")["Сумма операции с округлением"].sum().reset_index()
@@ -91,9 +91,7 @@ def last_card_numbers(df,greeting):
         transactions = {"date": row["Дата операции"]. strftime("%d.%m.%Y"),
                         "amount": row["Сумма операции с округлением"],
                         "category": row["Категория"],
-                        "description": row["Описание"]
-
-        }
+                        "description": row["Описание"]}
         transactions_list.append(transactions)
     currency_rates = currency_course()
 

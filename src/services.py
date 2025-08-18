@@ -20,7 +20,8 @@ def search_trans(transactions: List[Dict]) -> str:
             filtered_transactions.append(trans)
 
     logging.info(f"Найдено {len(filtered_transactions)} переводов физическим лицам")
-    return json.dumps(filtered_transactions,ensure_ascii=False)
+    return json.dumps(filtered_transactions, ensure_ascii=False)
+
 
 if __name__ == "__main__":
     transactions = [
@@ -32,4 +33,3 @@ if __name__ == "__main__":
 
     result = search_trans(transactions)
     print(result)
-

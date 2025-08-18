@@ -7,7 +7,6 @@ from unittest.mock import mock_open, patch
 from src.reports import dec_to_file_with_param
 
 
-
 @pytest.fixture
 def data_ex():
     data = {
@@ -29,6 +28,7 @@ def test_period(data_ex):
     total = get_expenses(data_ex, "Переводы", "2026-07-31")
     assert total == 0.0
 
+
 def test_get_expenses_no_category(data_ex):
     "Тестируем если выводим неизвестную категорию"
     total = get_expenses(data_ex, "Неизвестная категория", "2025-07-31")
@@ -39,16 +39,11 @@ def test_get_expenses_no_category(data_ex):
 def my_func(value):
     return {"result": f"Категории: {value}"}
 
+
 def test_dec_to_file_with_param():
     mock = mock_open()
     with patch("builtins.open", mock):
         result = my_func("Переводы")
 
     assert result == {"result": "Категории: Переводы"}
-
-
-
-
-
-
 

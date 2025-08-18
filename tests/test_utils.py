@@ -7,6 +7,7 @@ from src.utils import (
     last_card_numbers
 )
 
+
 @patch("os.getenv", return_value="dummy_api_key")
 @patch("requests.get")
 def test_currency_course(mock_get, mock_getenv):
