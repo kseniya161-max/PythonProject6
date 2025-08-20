@@ -1,4 +1,6 @@
 import json
+from typing import Dict, List
+import json
 import pandas as pd
 from datetime import datetime
 import requests
@@ -10,7 +12,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 
-def greeting_by_time(date_str):
+def greeting_by_time(date_str:str)-> Dict[str, str]:
     """ Программа приветствует в соответствии с переданным временем суток"""
     logging.info("Создается объект datetime из строки")
     dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
@@ -29,14 +31,14 @@ def greeting_by_time(date_str):
     return response
 
 
-def open_excel(file_name):
+def open_excel(file_name: str) -> pd.DataFrame:
     """ Открываем Excel и загружаем его в DataFrame """
     logging.info("Производится открытие Exel файла")
     df = pd.read_excel(file_name, engine="xlrd")
     return df
 
 
-def currency_course():
+def currency_course() -> List[Dict[str, any]]:
     """ Функция получает актуальный курс валют"""
     load_dotenv()  # Загружает переменные окружения из файла .env
     logging.info("Производится запрос на Api сайт")
@@ -57,7 +59,7 @@ def currency_course():
         return []
 
 
-def stock_prices():
+def stock_prices() -> List[Dict[str, any]]:
     """ Функция получает цены акций S&P 500"""
     load_dotenv()
     api_key = os.getenv("API_KEY_ALPHA_VANTAGE")
@@ -84,7 +86,7 @@ def stock_prices():
     return stock_data
 
 
-def last_card_numbers(df, greeting):
+def last_card_numbers(df: pd.DataFrame, greeting: str) -> Dict[str, any]:
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
 

@@ -1,4 +1,65 @@
 {
-  "time": "2025-08-21_00:41:24",
-  "result": 144243.0
+  "greeting": {
+    "greeting": "Добрый Вечер"
+  },
+  "cards": [
+    {
+      "last_digits": "1341",
+      "total_spent": 28695.89,
+      "cashback": 286.0
+    },
+    {
+      "last_digits": "7220",
+      "total_spent": 14280.0,
+      "cashback": 142.0
+    },
+    {
+      "last_digits": "7817",
+      "total_spent": 48.98,
+      "cashback": 0.0
+    }
+  ],
+  "top_transactions": [
+    {
+      "date": "28.07.2025",
+      "amount": 50000.0,
+      "category": "Переводы",
+      "description": "Денис К."
+    },
+    {
+      "date": "03.07.2025",
+      "amount": 27000.0,
+      "category": "Переводы",
+      "description": "Ксения Б."
+    },
+    {
+      "date": "21.07.2025",
+      "amount": 21000.0,
+      "category": "Переводы",
+      "description": "Фарида Б."
+    },
+    {
+      "date": "13.07.2025",
+      "amount": 20000.0,
+      "category": "Переводы",
+      "description": "Ксения Б."
+    },
+    {
+      "date": "31.07.2025",
+      "amount": 13500.0,
+      "category": "Переводы",
+      "description": "Перевод на карту"
+    }
+  ],
+  "currency_rates": [
+    {
+      "currency": "USD",
+      "rate": 80.51529790660226
+    },
+    {
+      "currency": "EUR",
+      "rate": 93.98496240601504
+    }
+  ],
+  "stock_prices": []
 }
