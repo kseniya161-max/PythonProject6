@@ -207,7 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 
-user_settings/.env
+.env
 
 # .gitignore
-user_settings/.env
+.env
