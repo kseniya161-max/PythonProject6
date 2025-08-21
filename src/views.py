@@ -7,6 +7,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import logging
+from typing import Any
 
 # Логирование
 logging.basicConfig(level=logging.INFO)
@@ -38,7 +39,7 @@ def open_excel(file_name: str) -> pd.DataFrame:
     return df
 
 
-def currency_course() -> List[Dict[str, any]]:
+def currency_course() -> List[Dict[str, Any]]:
     """ Функция получает актуальный курс валют"""
     load_dotenv()  # Загружает переменные окружения из файла .env
     logging.info("Производится запрос на Api сайт")
@@ -59,7 +60,7 @@ def currency_course() -> List[Dict[str, any]]:
         return []
 
 
-def stock_prices() -> List[Dict[str, any]]:
+def stock_prices() -> List[Dict[str, Any]]:
     """ Функция получает цены акций S&P 500"""
     load_dotenv()
     api_key = os.getenv("API_KEY_ALPHA_VANTAGE")
@@ -86,7 +87,7 @@ def stock_prices() -> List[Dict[str, any]]:
     return stock_data
 
 
-def last_card_numbers(df: pd.DataFrame, greeting: str) -> Dict[str, any]:
+def last_card_numbers(df: pd.DataFrame, greeting: str) -> Dict[str, Any]:
     # Чтение данных из Excel файла
     df.columns = df.columns.str.strip()
 
