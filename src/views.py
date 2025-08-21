@@ -1,4 +1,3 @@
-import json
 from typing import Dict, List
 import json
 import pandas as pd
@@ -13,7 +12,7 @@ from typing import Any
 logging.basicConfig(level=logging.INFO)
 
 
-def greeting_by_time(date_str:str)-> Dict[str, Any]:
+def greeting_by_time(date_str: str) -> Dict[str, Any]:
     """ Программа приветствует в соответствии с переданным временем суток"""
     logging.info("Создается объект datetime из строки")
     dt = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")

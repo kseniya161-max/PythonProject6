@@ -12,7 +12,6 @@ def main():
     result_1 = greeting_by_time(date_str)
     print(result_1["greeting"])
 
-
     final_result = last_card_numbers(result_2, result_1["greeting"])
     print(json.dumps(final_result, ensure_ascii=False, indent=2))
 
